@@ -166,7 +166,30 @@ Los logs del agente de Zabbix se guardan en el siguiente archivo `/var/log/zabbi
 
 ![logs](https://user-images.githubusercontent.com/88456338/128659215-b52606ca-98f1-4e9c-aee2-3b3178ffbeb2.png)
 
-En este punto, ya están configurados y funcionando correctamente los dispositivos de red y el equipo Debian. Ahora solo falta la configuración en el fronted de Zabbix.
+En este punto, ya están configurados y funcionando correctamente los dispositivos de red y el equipo Debian. Ahora solo falta la configuración en el frontend de Zabbix.
+
+# Configuracion en el Frontend de Zabbix
+
+Para ingresar al Frontend de Zabbix, ingresamos con la ip en el navegador web, en este caso lo hago así: http:/localhost/zabbix
+Ingreso el usuario `Admin` y la contraseña por defecto `zabbix`
+
+Configuracion del monitoreo del Router Mikrotik en Zabbix:
+
+Primeramente se ingresa en la opción **Configuration**, en la parte izquierda del panel y luego dónde dice **Host**. Se selecciona el botón de **Create Host** en la parte superior y se abrirá una ventana con opciones a configurar. 
+![frontend](https://user-images.githubusercontent.com/88456338/128710957-73d21512-98d3-4bfe-82ac-182930310771.png)
+
+![createhost](https://user-images.githubusercontent.com/88456338/128711256-b8e3ff38-5db0-4ca6-ac3c-430eeb896b7c.png)
+
+En la opción de Hostname, se configura el nombre de host en este caso es *Mikrotik*, en **Interfaces** se cambia a SNMP y se pone la ip del Mikrotik *10.0.0.1*, la **comunnity**  se establece en *public* en este caso, en **Groups** se selecciona el el grupo del equipo, en este caso será *Network Devices*. Quedando así la configuración final:
+
+![mikroooo](https://user-images.githubusercontent.com/88456338/128712267-fcbeb1d1-13f3-4a47-9cd3-500cab783fad.png)
+
+En la ventana de **Templates** en la parte superior, se selecciona el template correspondiente para este equipo Mikrotik
+
+![template_mikrotik](https://user-images.githubusercontent.com/88456338/128712636-c00c6084-078c-4ca0-bf60-46f85760e5a4.png)
+
+Por último se toca en el boton **UPDATE**, de esta forma se concluye la configuración basica para el monitoreo de Mikrotik usando su template 
+
 
 
 
