@@ -173,7 +173,7 @@ En este punto, ya están configurados y funcionando correctamente los dispositiv
 Para ingresar al Frontend de Zabbix, ingresamos con la ip en el navegador web, en este caso lo hago así: http:/localhost/zabbix
 Ingreso el usuario `Admin` y la contraseña por defecto `zabbix`
 
-Configuracion del monitoreo del Router Mikrotik en Zabbix:
+## Configuracion del monitoreo del Router Mikrotik en Zabbix:
 
 Primeramente se ingresa en la opción **Configuration**, en la parte izquierda del panel y luego dónde dice **Host**. Se selecciona el botón de **Create Host** en la parte superior y se abrirá una ventana con opciones a configurar. 
 ![frontend](https://user-images.githubusercontent.com/88456338/128710957-73d21512-98d3-4bfe-82ac-182930310771.png)
@@ -190,6 +190,27 @@ En la ventana de **Templates** en la parte superior, se selecciona el template c
 
 Por último se toca en el boton **UPDATE**, de esta forma se concluye la configuración basica para el monitoreo de Mikrotik usando su template 
 
+## Configuración del monitoreo del Router Cisco en Zabbix
+Se siguen los mismos pasos nombrados anteriormente para llegar a la parte del Host, en la opción de la **IP** se establece la ip del Router Cisco, y en la ventana **Templates** se elige una especifica para Routers Cisco.  
+
+![snmp_cisco](https://user-images.githubusercontent.com/88456338/128783260-d8d70971-9aad-420d-ae7b-6d41abcf70f1.png)
+
+![template_cisco](https://user-images.githubusercontent.com/88456338/128783339-fd525749-f55a-4ea2-9ead-4b5302aee8d2.png)
+
+
+## Configuracion del monitoreo del equipo Linux Debian 9 en Zabbix:
+
+Se siguen los anteriores, pero en lugar de establecer SNMP en la opcion de **Interfaces** se establece en AGENTE y la ip del host, ya que este equipo se monitorea a través del agente de Zabbix. Quedando asi: 
+
+![debian_captura](https://user-images.githubusercontent.com/88456338/128783834-37953afc-2fc4-468d-957e-0ca8daa1879c.png)
+
+
+Con todos los equipos configurados, la ventana de **HOSTS** deberia ser la siguiente: 
+
+![host_terminado](https://user-images.githubusercontent.com/88456338/128784113-71c16047-d7b1-43a8-81e0-bd502272cc1b.png)
+
+
+Con todos los hosts configurados correctamente, se pueden hacer algunas pruebas basicas de monitoreo.
 
 
 
