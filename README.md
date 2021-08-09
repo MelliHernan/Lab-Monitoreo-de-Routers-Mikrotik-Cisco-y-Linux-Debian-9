@@ -95,7 +95,7 @@ R1-CISCO(config)# exit
 
 - La Comunidad public tiene permiso de solo lectura en el Router Cisco.
 - La persona de contacto responsable de este Router se configuró como Diego.
-- La ubicación del equipo se configuró como la Sala de TI del Universo 10.
+- La ubicación del equipo se configuró como Planta baja - Piso IT.
 
 
 Para probar la configuración SNMP, use los siguientes comandos en el equipo con Ubuntu Linux Zabbix Server![snmp mikro](https://user-images.githubusercontent.com/88456338/128647700-682c1124-5156-411b-be52-08eef878e69b.png)
@@ -121,5 +121,55 @@ Para probar la configuración SNMP, use los siguientes comandos en el equipo con
 
 Pequeña muestra de la salida de SNMPWALK:
 ![snmp mikro](https://user-images.githubusercontent.com/88456338/128647705-cbb476e1-544a-43dd-8f00-524a4c10731c.png)
+
+## Configuración agente Zabbix en Linux Debian 9.
+
+En el repositorio oficial de Zabbix se puede buscar el agente para el servidor Debian 9, en este caso es la version 5.0
+https://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/
+Se descarga y se instala con `dpkg`.
+
+`sudo wget https://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/zabbix-release_5.0-1%2Bstretch_all.deb`
+
+`sudo dpkg -i zabbix-release_5.0-1+stretch_all.deb`
+
+Por último, hay que actualizar los repositorios 
+
+`sudo apt update`
+
+`sudo apt install zabbix-agent`
+
+Para comprobar que se haya instalado correctamente, se hace de esta forma:
+
+`sudo zabbix_agented --version`
+
+La salida debería ser similar a la siguiente: 
+![version](https://user-images.githubusercontent.com/88456338/128659315-9fb814a5-b2ce-4655-b084-e9988a73ba01.png)
+
+
+
+Luego de hacer la instalación, se configura lo basico en el agente, se añaden los siguientes parametros en el archivo `/etc/zabbix/zabbix_agentd.conf`
+
+~~~
+PidFile=/var/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFileSize=3
+Server=10.0.0.253,127.0.0.1
+ServerActive=10.0.0.253
+Hostname=debian
+~~~
+
+Por último se reinicia el servicio 
+
+`sudo systemctl restart zabbix-agent.service`
+
+Los logs del agente de Zabbix se guardan en el siguiente archivo `/var/log/zabbix_agentd.log`, y para consultarlos en tiempo real se puede usarl `tail -f`, de la siguiente manera:
+
+![logs](https://user-images.githubusercontent.com/88456338/128659215-b52606ca-98f1-4e9c-aee2-3b3178ffbeb2.png)
+
+En este punto, ya están configurados y funcionando correctamente los dispositivos de red y el equipo Debian. Ahora solo falta la configuración en el fronted de Zabbix.
+
+
+
+
 
 
