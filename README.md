@@ -210,7 +210,77 @@ Con todos los equipos configurados, la ventana de **HOSTS** deberia ser la sigui
 ![host_terminado](https://user-images.githubusercontent.com/88456338/128784113-71c16047-d7b1-43a8-81e0-bd502272cc1b.png)
 
 
-Con todos los hosts configurados correctamente, se pueden hacer algunas pruebas basicas de monitoreo.
+Con todos los hosts configurados correctamente, estoy en condiciones de hacer algunas pruebas basicas de monitoreo.
+
+# Mikrotik
+
+## Prueba de apagado de una **Interface** en el Mikrotik
+
+Voy a apagar la interface ether3 del Mirotik a las 19:29 horas del 10/08/2021,donde está conectada la red 10.0.2.0/24 y me saltará el problema en la ventana **Problems** del frontend de zabbix, y la dejaré así durante un par de minutos.
+
+### Topología en GNS3:
+
+![downinterfaceeee](https://user-images.githubusercontent.com/88456338/128943502-dfa19d2e-d2a5-4450-a82c-56f582e891f0.png)
+
+### Frontend de Zabbix: 
+
+![problembsmikro](https://user-images.githubusercontent.com/88456338/128943613-4f4b6e23-27ea-469f-8175-ff3c34d421d7.png)
+
+Como se observa, el problema empieza a las 19:29 y la gravedad es "Average", indica el host a cual le pertenece este problema y una breve descripción.
+
+Siendo las 19:39 encenderé la interface nuevamente
+
+![capture-20210810-193933](https://user-images.githubusercontent.com/88456338/128944025-37994163-5806-4050-93fe-79e8d4275fe3.png)
+
+Como se observa, ahora el estado es de "Resolved" y está en verde, lo que quiere decir que el problema fue resuelto. Si hago click en **Recovery Time** puedo obtener informacion del tiempo de recuperación.
+
+![recoved](https://user-images.githubusercontent.com/88456338/128944400-cfae75a0-96e8-49d8-a60b-39a797f192b5.png)
+
+El problema empezó a las 19:29 y se recuperó a las 19:39, por lo cual su duración es de 10 minutos, lo que indica en **Duration**
+
+
+En **Lates Data** puedo observar más informacion sobre las interfaces y ver sus graficos, en este caso los graficos son pobres porque el trafico de red basicamente es sobre ICMP. 
+
+![VirtualBox_Ubuntu18Zabbix_10_08_2021_19_51_08](https://user-images.githubusercontent.com/88456338/128945016-6ff3d4a5-5542-4446-a2c1-93dbc89c4408.png)
+
+
+# Linux Debian 9
+
+## Prueba de stress del CPU
+
+Voy a generar un poco de carga al CPU con la herramienta `stress`. Esta herramienta básicamente se encarga de crear una cantidad dada de carga a la CPU, la memoria, E/S y tensión de disco.
+
+En la consola del debian pongo `stress -c 1` 
+
+![ejecucioncomando](https://user-images.githubusercontent.com/88456338/128960959-98e06cbe-1338-4b82-af97-c1187dc95ed8.png)
+
+El comando se ejecuta durante unos minutos, y reviso en el frontend de Zabbix el problema. 
+
+![cpudebianaverage](https://user-images.githubusercontent.com/88456338/128961278-f3491aba-b498-4417-8339-a52799228d3f.png)
+
+Cuando cancelo el comando, Zabbix me reporta que el problema fue resuelto y muestra el tiempo de recuperación.
+
+![cpudebianresolved](https://user-images.githubusercontent.com/88456338/128960980-543d0396-eb1d-49c8-b61b-98d0e8e77968.png)
+
+También puedo ingresar a la parte de los graficos y ver el problema, claramente se ve como el CPU se va al 100%.
+
+![grafico_cpu_alto](https://user-images.githubusercontent.com/88456338/128961992-2bf1f17d-5b58-408b-b05b-c4ccb9ec9f7e.png)
+
+
+Ahora, voy a apagar el equipo Debian conectado al Router Cisco, deberia notificarme que el agente no está disponible. 
+
+![apagadodebian](https://user-images.githubusercontent.com/88456338/128964209-1dfd8260-1c98-4cd0-a924-facea2978537.png)
+
+
+### Topologia en GNS3:
+
+![shutdowndebiaaan](https://user-images.githubusercontent.com/88456338/128964446-2e0c405c-0b6a-4184-993c-9d1f4c7adaed.png)
+
+Zabbix me notifica que el agente en Debian no está disponible. 
+
+![PROBLEMAAPAGADODEBIAN](https://user-images.githubusercontent.com/88456338/128964958-afe58bb0-7e30-4756-b87b-7bc1c9666734.png)
+
+Cuando el equipo se encienda, el problema queda resuelto. 
 
 
 
