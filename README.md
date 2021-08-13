@@ -1,5 +1,5 @@
 # Lab-Monitoreo-de-Routers-Mikrotik-Cisco-y-Linux-Debian-9
-## Laboratorio hecho en GNS3 con Mikrotik, Cisco, Ubuntu y Debian 
+## Laboratorio hecho en GNS3 con Mikrotik, Cisco, Ubuntu y Debian. Se omiten configuraciones ips, enrutamiento, y configuracion general de GNS3
 
 La topología de este laboratorio de monitoreo está compuesta de la siguiente forma
 - Un servidor con Ubuntu 18.04 dónde está Instalado Zabbix 5.0, que será nuestro servidor de monitoreo. Este Router se monitorea con el protocolo SNMP
@@ -282,8 +282,50 @@ Zabbix me notifica que el agente en Debian no está disponible.
 
 Cuando el equipo se encienda, el problema queda resuelto. 
 
+# Router Cisco
 
+## Prueba apagado de interface FastEthernet1/0
 
+Con el comando `shutdown`, apagaré la interface en el Router.
 
+### Topologia en GNS3:
+![apagadofastethernet](https://user-images.githubusercontent.com/88456338/129422911-6783e08f-bd5c-4241-9f45-0fe380a507f0.png)
 
+### Muestra en el frontend de Zabbix:
+
+Como se observa, Zabbix me alerta del problema con la FastEthernet1/0, y también me informa sobre que se perdió conectividad con el equipo Debian, ya que esta interface es la que comunica el Debian con el Servidor Zabbix. 
+
+![tiradafast](https://user-images.githubusercontent.com/88456338/129423393-38fc4161-b54f-4573-b3d3-b4a62c71092d.png)
+
+Cuando levanto nuevamente la interface, Zabbix me informa sobre la recuperación.
+
+![recuperadointerfacecisco](https://user-images.githubusercontent.com/88456338/129423698-b4804a43-2abd-4fb4-a00a-80461f93640f.png)
+
+Estas fueron unas pruebas simples con Zabbix, se pueden crear items y triggers dependiendo los requisitos que necesitemos. En este caso, solo usé los de los templates.
+
+# Creación de un mapa de la red.
+
+Zabbix ofrece la posibilidad de crear un mapa, en dicho mapa se pueden agregar los hosts, e información sobre sus estados. 
+
+![MAPA_ZABBIX](https://user-images.githubusercontent.com/88456338/129425783-db48f7ac-6aa7-4284-858b-7ddd2b05c547.png)
+
+Voy a apagar la interface FastEthernet1/0 en el Router Cisco, para ver como se muestra en el mapa de Zabbix.
+
+### Muestra del mapa
+
+![Muestramapa](https://user-images.githubusercontent.com/88456338/129426064-a1b292f0-b18e-44da-98cd-da955fed0fae.png)
+
+En la ultima prueba voy a cortar Internet en la red, para mostrarlo en el mapa
+
+### Muestra del mapa
+
+![internet_caido](https://user-images.githubusercontent.com/88456338/129426353-9d26aa94-d62a-4093-8b33-f208ec20bd54.png)
+
+### Muestra en la opcion de Problems
+
+![probleminternet](https://user-images.githubusercontent.com/88456338/129426414-48e9b6ff-2de6-4c25-8212-82651746d1fa.png)
+
+Una vez que internet se recupera, el mapa se vuelve a mostrar en verde.
+
+![internetrecuperado](https://user-images.githubusercontent.com/88456338/129426590-c9bfaee3-6e48-4ba2-9fd6-10d4208a576b.png)
 
